@@ -13,6 +13,7 @@ st.set_page_config(layout="wide")
 
 merged, infos, infos_100, data = load_data()
 
+st.sidebar.header("Mathieu Suchet")
 st.sidebar.header("Paramètres")
 
 enseignes_choice = infos_100["Enseignes"].unique()
