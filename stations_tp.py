@@ -9,6 +9,8 @@ from data.computing import get_distances_under_n, get_prices_comparison
 
 from data.data import load_data
 
+st.set_page_config(layout="wide")
+
 merged, infos, infos_100, data = load_data()
 
 st.sidebar.header("Paramètres")
@@ -87,7 +89,7 @@ for k, s in stations_10.items():
         radius=int(radius) * 1_000,
         color="black"
     ).add_to(f_map)
-stf.st_folium(f_map, zoom=False)
+stf.st_folium(f_map, zoom=False, width=f_map.width)
 
 station_data = merged[merged["id"] == selected_station]
 station_data = station_data[station_data["Date_Conv"] == selected_date]
@@ -108,10 +110,14 @@ else:
 
 st.markdown("## Visualisations")
 
-if selected_date:
-    all_p_g = d_enseigne_w_date[["Enseignes", "Adresse", "Date", "Gazole", "SP95", "SP98", "E10", "E85", "GPLc"]]
-            
-    if(all_p_g[product].median() > 0):
-        st.plotly_chart(p.line(title="Prix " + product, data_frame=all_p_g, x="Date", y=product ,labels={"x": "Date", "y": "Prix"}))
+
+if merged_diffs.empty:
+    st.write(f"Pas de concurrents sur un rayon de {radius}km")
 else:
-    st.write("Aucune donnée n'est disponible pour visualiser les changements")     
+    if selected_date:
+        all_p_g = d_enseigne_w_date[["Enseignes", "Adresse", "Date", "Gazole", "SP95", "SP98", "E10", "E85", "GPLc"]]
+                
+        if(all_p_g[product].median() > 0):
+            st.plotly_chart(p.line(title="Prix " + product, data_frame=all_p_g, x="Date", y=product ,labels={"x": "Date", "y": "Prix"}))
+    else:
+        st.write("Aucune donnée n'est disponible pour visualiser les changements")     
