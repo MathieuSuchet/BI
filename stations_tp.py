@@ -101,12 +101,15 @@ merged_diffs = pd.merge(left=product_diffs, right=infos, left_on=product_diffs.i
 merged_diffs = merged_diffs.drop(["CP", "Latitude", "Longitude"], axis=1)
 
 st.markdown("### Prix par rapport au voisinage")
-st.write(merged_diffs)
+if merged_diffs.empty:
+    st.write(f"Pas de concurrents sur un rayon de {radius}km")
+else:
+    st.write(merged_diffs)
 
 st.markdown("## Visualisations")
 
 if selected_date:
-    all_p_g = d_enseigne_w_date[["Date", "Gazole", "SP95", "SP98", "E10", "E85", "GPLc"]]
+    all_p_g = d_enseigne_w_date[["Enseignes", "Adresse", "Date", "Gazole", "SP95", "SP98", "E10", "E85", "GPLc"]]
             
     if(all_p_g[product].median() > 0):
         st.plotly_chart(p.line(title="Prix " + product, data_frame=all_p_g, x="Date", y=product ,labels={"x": "Date", "y": "Prix"}))
