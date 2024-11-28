@@ -29,7 +29,7 @@ max_date = info_selected_station.max()
 if min_date and max_date:
     selected_date = st.sidebar.date_input("Date choisie", min_value=min_date, max_value=max_date)
     product = st.sidebar.selectbox("Carburants", ["Gazole", "SP95", "SP98", "E10", "E85", "GPLc"])
-    radius = st.sidebar.number_input("Périmètre", 1, 50)
+    radius = st.sidebar.number_input("Périmètre", 1, 50, value=10)
     
 def details_enseignes(enseignes, date):
     st.write(f"## Détails pour les enseignes")
