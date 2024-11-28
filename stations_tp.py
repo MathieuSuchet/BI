@@ -52,7 +52,9 @@ def details_enseignes(enseignes, date):
     
 details_enseignes(["Carrefour", "Auchan", "E.Leclerc", "TotalEnergies Access", "Intermarché", "Système U"], selected_date)
 
-st.title(f"Station {selected_station} ({selected_enseigne})")
+info_station = merged[merged["id"] == selected_station]
+
+st.title(f"Carrefour {info_station['Ville'].values[0]}")
 info_s = infos_100[infos_100["ID"] == selected_station]
 coords = float(info_s["Latitude"]) / 100_000.0, float(info_s["Longitude"]) / 100_000.0
 d_enseigne_w_date = merged[merged["id"] == selected_station]
@@ -88,7 +90,7 @@ for k, s in stations_10.items():
     folium.Circle(
         location=coords,
         radius=int(radius) * 1_000,
-        color="black"
+        color="black",
     ).add_to(f_map)
 stf.st_folium(f_map, zoom=False, width=f_map.width)
 
